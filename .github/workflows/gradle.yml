@@ -45,7 +45,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: ./gradlew sonarqube --info
     - name: Publish with Gradle
-    - name: Publish with Gradle
       env:
         PRIVATEREPOURL: ${{ secrets.PRIVATEREPOURL }}
         PRIVATEREPOUSER: ${{ secrets.PRIVATEREPOUSER }}
