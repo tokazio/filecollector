@@ -42,20 +42,17 @@ jobs:
     - name: Build
       run: ./gradlew build --info
     - name: Sonar analyze 
-      continue-on-error: true
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: ./gradlew sonarqube --info
     - name: Publish on private
-      continue-on-error: true
       env:
         PRIVATEREPOURL: ${{ secrets.PRIVATEREPOURL }}
         PRIVATEREPOUSER: ${{ secrets.PRIVATEREPOUSER }}
         PRIVATEREPOPASS: ${{ secrets.PRIVATEREPOPASS }}
       run: ./gradlew publishAllPublicationsToPrivateRepository --info
     - name: Publish on github
-      continue-on-error: true
       env:
         PUBLISHTOKEN: ${{ secrets.PUBLISHTOKEN }}
       run: ./gradlew publishAllPublicationsToGithubRepository --info
