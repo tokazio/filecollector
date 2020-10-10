@@ -56,6 +56,8 @@ task sourceJar(type: Jar) {
 }
 
 publishing {
+    println 'Username: '+System.getenv('PRIVATEREPOUSER')
+    println 'Url: '+System.getenv('PRIVATEREPOURL')
     repositories {
         maven {
             name 'private'
