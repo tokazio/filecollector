@@ -50,9 +50,15 @@ sonarqube {
     }
 }
 
+task sourceJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allJava
+}
+
 publishing {
     repositories {
         maven {
+            name 'private'
             credentials {
                 username System.getenv('PRIVATEREPOUSER')
                 password System.getenv('PRIVATEREPOPASS')
@@ -60,6 +66,7 @@ publishing {
             url = System.getenv('PRIVATEREPOURL')
         }
         maven {
+            name 'github'
             credentials {
                 username 'tokazio'
                 password System.getenv('PUBLISHTOKEN')
@@ -70,6 +77,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+            artifact tasks.sourceJar
         }
     }
 }
