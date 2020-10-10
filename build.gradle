@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
     id 'java'
-    id 'java-library'
+    id 'jacoco'
     id "org.sonarqube" version "3.0"
 }
 
@@ -22,10 +22,25 @@ repositories {
 
 dependencies {
     compileOnly group: 'com.google.code.findbugs', name: 'jsr305', version: '2.0.1'
-    compileOnly group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-    compileOnly group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.0-alpha5'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.0-alpha5'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.17.2'
 }
+
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+    dependsOn test // tests are required to run before generating the report
+}
+
+tasks['sonarqube'].dependsOn test
 
 sonarqube {
     properties {
@@ -36,8 +51,6 @@ sonarqube {
 }
 
 publishing {
-    println 'Username: '+System.getenv('PRIVATEREPOUSER')
-    println 'Url: '+System.getenv('PRIVATEREPOURL')
     repositories {
         maven {
             credentials {

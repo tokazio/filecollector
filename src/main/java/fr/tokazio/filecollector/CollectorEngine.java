@@ -4,6 +4,7 @@ package fr.tokazio.filecollector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -21,12 +22,16 @@ public class CollectorEngine {
     private static final Logger LOGGER = LoggerFactory.getLogger(CollectorEngine.class);
 
     private static final int cores = Runtime.getRuntime().availableProcessors();
-    private final ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(cores);
-    private final List<CollectorFilter> fileFilters = new LinkedList<>();
-    private final List<CollectorFilter> dirFilters = new LinkedList<>();
+    private @Nonnull
+    final ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(cores);
+    private @Nonnull
+    final List<CollectorFilter> fileFilters = new LinkedList<>();
+    private @Nonnull
+    final List<CollectorFilter> dirFilters = new LinkedList<>();
     private List<File> files;
 
-    public List<File> collect(final String pathName) {
+    public @Nonnull
+    List<File> collect(final String pathName) {
         LOGGER.info("Collecting '" + pathName + "' with " + cores + " core(s)...");
         files = new CopyOnWriteArrayList<>();
         final long start = System.currentTimeMillis();
@@ -79,14 +84,16 @@ public class CollectorEngine {
         }
     }
 
-    public CollectorEngine fileFilter(final CollectorFilter filter) {
+    public @Nonnull
+    CollectorEngine fileFilter(final CollectorFilter filter) {
         if (filter != null) {
             fileFilters.add(filter);
         }
         return this;
     }
 
-    public CollectorEngine dirFilter(final CollectorFilter filter) {
+    public @Nonnull
+    CollectorEngine dirFilter(final CollectorFilter filter) {
         if (filter != null) {
             dirFilters.add(filter);
         }

@@ -1,4 +1,5 @@
 # File collector
+![Java CI with Gradle](https://github.com/tokazio/filecollector/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
 Fast collect files into list from a given folder.
 Use DirectoryStream API and multi threading.
