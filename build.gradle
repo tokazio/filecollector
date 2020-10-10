@@ -1,0 +1,62 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'java-library'
+    id "org.sonarqube" version "3.0"
+}
+
+apply plugin: 'maven-publish'
+
+group 'fr.tokazio'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://mymavenrepo.com/repo/IwNlOBbZiDtlg65DCbh7/'
+    }
+}
+
+dependencies {
+    compileOnly group: 'com.google.code.findbugs', name: 'jsr305', version: '2.0.1'
+    compileOnly group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+    compileOnly group: 'ch.qos.logback', name: 'logback-classic', version: '1.3.0-alpha5'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "tokazio_filecollector"
+        property "sonar.organization", "tokazio"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
+
+publishing {
+    println 'Username: '+System.getenv('PRIVATEREPOUSER')
+    println 'Url: '+System.getenv('PRIVATEREPOURL')
+    repositories {
+        maven {
+            credentials {
+                username System.getenv('PRIVATEREPOUSER')
+                password System.getenv('PRIVATEREPOPASS')
+            }
+            url = System.getenv('PRIVATEREPOURL')
+        }
+        maven {
+            credentials {
+                username 'tokazio'
+                password System.getenv('PUBLISHTOKEN')
+            }
+            url = 'https://maven.pkg.github.com/tokazio/filecollector'
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
