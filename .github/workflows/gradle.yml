@@ -45,10 +45,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: ./gradlew sonarqube --info
-    - name: Publish with Gradle
+    - name: Publish on private
       env:
         PRIVATEREPOURL: ${{ secrets.PRIVATEREPOURL }}
         PRIVATEREPOUSER: ${{ secrets.PRIVATEREPOUSER }}
         PRIVATEREPOPASS: ${{ secrets.PRIVATEREPOPASS }}
+      run: ./gradlew publishAllPublicationsToPrivateRespository --info
+    - name: Publish on github
+      env:
         PUBLISHTOKEN: ${{ secrets.PUBLISHTOKEN }}
-      run: ./gradlew publish --info
+      run: ./gradlew publishAllPublicationsToGithubRespository --info
