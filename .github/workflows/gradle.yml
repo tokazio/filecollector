@@ -11,7 +11,7 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-    name : Build / Test / Analyse / Publishes
+    name : 'Build / Test / Analyse / Publishes'
     runs-on: ubuntu-latest
 
     steps:
