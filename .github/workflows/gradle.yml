@@ -11,7 +11,7 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-
+    name : Build / Test / Analyse / Publishes
     runs-on: ubuntu-latest
 
     steps:
@@ -44,11 +44,7 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-      set +e
-      ./gradlew sonarqube --info
-      set -e
-     
+      run: ./gradlew sonarqube --info
     - name: Publish on private
       env:
         PRIVATEREPOURL: ${{ secrets.PRIVATEREPOURL }}
