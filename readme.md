@@ -9,16 +9,10 @@ Use DirectoryStream API and multi threading.
 
 ```
 final List<File> files = new CollectorEngine()
-    .filter(new CollectorFilter() {
-        @Override
-        public boolean filter(Path path) {
-            return path.toString().endsWith(".java");
+    .fileFilter(path-> path.toString().endsWith(".java");
         }
     })
-    .dirFilternew CollectorFilter() {
-        @Override
-        public boolean filter(Path path) {
-            return path.toString().equals("java");
+    .dirFilter(path -> path.toString().equals("java");
         }
     })
     .collect("myFolder");
